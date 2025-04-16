@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieRec - Your Personal Movie Recommender</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="/" class="nav-brand">
+                <i class="fas fa-film"></i>
+                <h1 class="app-title">MovieRec</h1>
+            </a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- Featured Movie Section -->
+        <section class="hero-section">
+            <div class="container featured-container">
+                <h2><i class="fas fa-star"></i> Featured Movie</h2>
+                <div class="featured-movie">
+                    <div class="featured-movie-card">
+                        <img class="poster featured-poster" src="https://image.tmdb.org/t/p/w500{{ featured_movie.poster_path }}" alt="{{ featured_movie.title }} poster">
+                        <div class="featured-movie-info">
+                            <h3>{{ featured_movie.title }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trending Movies Section -->
+        <section class="trending-section">
+            <div class="container">
+                <h2><i class="fas fa-fire"></i> Trending Now</h2>
+                <div class="movie-grid">
+                    {% for movie in trending_movies %}
+                    <div class="movie-card">
+                        <div class="movie-poster-wrapper">
+                            <img class="poster" src="https://image.tmdb.org/t/p/w300{{ movie.poster_path }}" alt="{{ movie.title }} poster">
+                            <div class="movie-overlay">
+                                <h4>{{ movie.title }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendation Form Section -->
+        <section class="recommendation-section">
+            <div class="container">
+                <h2><i class="fas fa-magic"></i> Get Personalized Recommendations</h2>
+                <form class="recommendation-form" action="/recommend" method="post">
+                    <div class="form-group">
+                        <label for="user_id">Enter Your User ID</label>
+                        <input type="number" id="user_id" name="user_id" required placeholder="e.g., 42">
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-search"></i> Find Movies For Me
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 MovieRec. Your Personal Movie Recommendation Engine</p>
+        </div>
+    </footer>
+</body>
+</html>

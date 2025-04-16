@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieRec - Your Recommendations</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="/" class="nav-brand">
+                <i class="fas fa-film"></i>
+                <h1 class="app-title">MovieRec</h1>
+            </a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- ML-Based Recommendations Section -->
+        <section class="recommendations-section">
+            <div class="container">
+                <h2><i class="fas fa-brain"></i> ML-Based Recommendations</h2>
+                <div class="movie-grid">
+                    {% for item in ml_results %}
+                    <div class="movie-card">
+                        <div class="movie-poster-wrapper">
+                            <img class="poster" src="https://image.tmdb.org/t/p/w300{{ item.poster_path }}" alt="{{ item.title }} poster">
+                            <div class="movie-overlay">
+                                <h4>{{ item.title }}</h4>
+                                <p class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>Predicted Rating: {{ item.predicted_rating }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- SQL-Based Recommendations Section -->
+        <section class="recommendations-section">
+            <div class="container">
+                <h2><i class="fas fa-database"></i> SQL-Based Recommendations</h2>
+                <div class="movie-grid">
+                    {% for i in range(sql_preds|length) %}
+                        {% set movie_id = sql_preds[i][0] %}
+                        {% set movie_title = sql_titles[movie_id] %}
+                        {% set poster_path = sql_poster_paths[movie_id] %}
+                        <div class="movie-card">
+                            <div class="movie-poster-wrapper">
+                                <img class="poster" src="https://image.tmdb.org/t/p/w300{{ poster_path }}" alt="{{ movie_title }} poster">
+                                <div class="movie-overlay">
+                                    <h4>{{ movie_title }}</h4>
+                                    <p class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>Avg Rating: {{ sql_preds[i][1]|round(2) }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 MovieRec. Your Personal Movie Recommendation Engine</p>
+        </div>
+    </footer>
+</body>
+</html>
